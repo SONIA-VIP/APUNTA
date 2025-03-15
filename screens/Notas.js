@@ -3,6 +3,20 @@ import { View, Text, TextInput, FlatList, TouchableOpacity, Alert, Modal, StyleS
 import { addNota, getNotas, deleteNota, updateNota } from '../lib/database';
 import { Picker } from '@react-native-picker/picker';
 import { Feather } from '@expo/vector-icons';
+import { generarTexto, resumirNota, sugerirCategoria, buscarNotasIA } from '../lib/ai';
+
+
+// 🔹 Función para generar contenido con IA
+const handleGenerarTextoIA = async () => {
+  const textoGenerado = await generarTexto('Escribe una nota sobre esta categoría: ' + categoria);
+  setContenido(textoGenerado);
+};
+
+// 🔹 Función para sugerir una categoría automáticamente
+const handleSugerirCategoriaIA = async () => {
+  const categoriaSugerida = await sugerirCategoria(contenido);
+  setCategoria(categoriaSugerida);
+};
 
 export default function NotasScreen() {
   const [categoria, setCategoria] = useState('Personal');
@@ -82,6 +96,23 @@ export default function NotasScreen() {
       setNotasFiltradas(notas.filter(nota => nota.categoria.toLowerCase().includes(texto.toLowerCase())));
     }
   };
+  const handleBuscarConIA = async () => {
+    if (!busqueda.trim()) {
+      Alert.alert('Error', 'Escribe algo para buscar.');
+      return;
+    }
+  
+    const resultadoIA = await buscarNotasIA(busqueda, notas);
+    
+    if (resultadoIA === "No se encontraron notas relacionadas.") {
+      Alert.alert('🔎 Búsqueda Inteligente', resultadoIA);
+      return;
+    }
+  
+    // 🔹 Mostrar las notas encontradas en la lista
+    setNotasFiltradas(notas.filter(nota => resultadoIA.includes(nota.contenido)));
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -95,6 +126,9 @@ export default function NotasScreen() {
           value={busqueda}
           onChangeText={buscarNotas}
         />
+        <TouchableOpacity style={styles.botonIA} onPress={handleBuscarConIA}>
+  <Text style={styles.botonTexto}>🔎 Búsqueda Inteligente</Text>
+</TouchableOpacity>
       </View>
 
       {/* Separador */}
@@ -170,6 +204,13 @@ export default function NotasScreen() {
               </TouchableOpacity>
             </View>
           </View>
+          <TouchableOpacity style={styles.botonIA} onPress={handleGenerarTextoIA}>
+  <Text style={styles.botonTexto}>✨ Sugerir Contenido</Text>
+</TouchableOpacity>
+
+<TouchableOpacity style={styles.botonIA} onPress={handleSugerirCategoriaIA}>
+  <Text style={styles.botonTexto}>🤖 Sugerir Categoría</Text>
+</TouchableOpacity>
         </View>
       </Modal>
 
@@ -382,5 +423,13 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
     elevation: 8,
+  },
+ 
+  botonIA: {
+    backgroundColor: '#00C2FF', // Azul
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 5,
+    alignItems: 'center',
   },
 });
