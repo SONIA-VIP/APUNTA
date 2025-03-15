@@ -112,7 +112,22 @@ export default function NotasScreen() {
     // 🔹 Mostrar las notas encontradas en la lista
     setNotasFiltradas(notas.filter(nota => resultadoIA.includes(nota.contenido)));
   };
-  
+
+  let puedeResumir = true; // Variable para controlar el tiempo entre solicitudes
+
+const handleResumirNota = async (nota) => {
+  if (!puedeResumir) {
+    Alert.alert("⏳ Espera un momento", "No puedes hacer otra petición tan rápido.");
+    return;
+  }
+
+  puedeResumir = false; // Bloquea nuevas solicitudes
+  setTimeout(() => (puedeResumir = true), 5000); // 🔹 Espera 5 segundos antes de permitir otra solicitud
+
+  const resumen = await resumirNota(nota.contenido);
+  Alert.alert("📝 Resumen de la Nota", resumen);
+};
+
 
   return (
     <View style={styles.container}>
@@ -146,6 +161,9 @@ export default function NotasScreen() {
               <Text style={styles.notaContenido}>{item.contenido}</Text>
             </View>
             <View style={styles.iconosContainer}>
+            <TouchableOpacity onPress={() => handleResumirNota(item)} style={styles.iconoResumir}>
+          <Feather name="file-text" size={18} color="#ffc800" />
+        </TouchableOpacity>
               <TouchableOpacity onPress={() => handleEditarNota(item)} style={styles.iconoEditar}>
                 <Feather name="edit-2" size={18} color="#555" />
               </TouchableOpacity>
@@ -304,6 +322,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+  iconoResumir: {
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 8,
   },
   iconoEditar: {
     padding: 8,
