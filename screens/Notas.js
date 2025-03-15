@@ -104,25 +104,26 @@ export default function NotasScreen() {
 
       {/* Lista de notas con tarjetas estilizadas */}
       <FlatList
-        data={notasFiltradas}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.notaCard}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.notaCategoria}>{item.categoria}</Text>
-              <Text style={styles.notaContenido}>{item.contenido}</Text>
-            </View>
-            <View style={styles.iconosContainer}>
-              <TouchableOpacity onPress={() => handleEditarNota(item)} style={styles.iconoEditar}>
-                <Feather name="edit" size={20} color="black" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleEliminarNota(item.id)} style={styles.iconoEliminar}>
-                <Feather name="trash-2" size={20} color="red" />
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-      />
+  data={notasFiltradas}
+  keyExtractor={item => item.id.toString()}
+  renderItem={({ item }) => (
+    <View style={[styles.notaCard, { backgroundColor: categoryColors[item.categoria] || '#828c8a' }]}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.notaCategoria}>{item.categoria}</Text>
+        <Text style={styles.notaContenido}>{item.contenido}</Text>
+      </View>
+      <View style={styles.iconosContainer}>
+        <TouchableOpacity onPress={() => handleEditarNota(item)} style={styles.iconoEditar}>
+          <Feather name="edit" size={20} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleEliminarNota(item.id)} style={styles.iconoEliminar}>
+          <Feather name="trash-2" size={20} color="red" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )}
+/>
+
 
       {/* Modal para agregar/editar notas */}
       <Modal 
@@ -181,10 +182,17 @@ export default function NotasScreen() {
   );
 }
 
+const categoryColors = {
+  Personal: '#00C2FF',  // Azul
+  Trabajo: '#FFBB00',   // Amarillo
+  Ideas: '#828c8a',     // Gris Medio
+  Recordatorios: '#e4e4e4', // Extra Gris
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#313e3b', // Fondo oscuro
     padding: 20,
   },
   searchContainer: {
@@ -206,14 +214,14 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
+    fontFamily: 'Inter',
   },
   separator: {
     height: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: '#e4e4e4',
     marginVertical: 10,
   },
   notaCard: {
-    backgroundColor: '#fff',
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -228,23 +236,92 @@ const styles = StyleSheet.create({
   notaCategoria: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#007AFF',
+    fontFamily: 'Quicksand',
+    color: '#fff',
   },
   notaContenido: {
     fontSize: 14,
-    color: '#666',
+    fontFamily: 'Inter',
+    color: '#fff',
   },
   pickerContainer: {
+    width: '100%',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
     marginBottom: 10,
+    backgroundColor: '#e4e4e4',
+  },
+  picker: {
+    height: 50,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+    width: '85%',
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: 'Quicksand',
+    marginBottom: 10,
+  },
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+    fontFamily: 'Inter',
+  },
+  inputMultiline: {
+    height: 80,
+    textAlignVertical: 'top',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 15,
+  },
+  botonCancelar: {
+    backgroundColor: 'gray',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+    marginRight: 5,
+  },
+  botonGuardar: {
+    backgroundColor: '#FFBB00',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+    marginLeft: 5,
+  },
+  botonTexto: {
+    color: 'white',
+    fontWeight: 'bold',
   },
   botonAgregar: {
     position: 'absolute',
     right: 20,
     bottom: 20,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#00C2FF',
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -255,78 +332,4 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
-    modalOverlay: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Oscurece la pantalla de fondo
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    modalContent: {
-      backgroundColor: 'white',
-      padding: 20,
-      borderRadius: 15, // Bordes redondeados
-      width: '85%',
-      alignItems: 'center',
-      elevation: 5, // Sombra en Android
-      shadowColor: '#000', // Sombra en iOS
-      shadowOpacity: 0.3,
-      shadowRadius: 5,
-    },
-    modalTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-    pickerContainer: {
-      width: '100%',
-      borderWidth: 1,
-      borderColor: '#ccc',
-      borderRadius: 8,
-      marginBottom: 10,
-      backgroundColor: '#f0f0f0',
-    },
-    picker: {
-      height: 50,
-    },
-    input: {
-      width: '100%',
-      borderWidth: 1,
-      borderColor: '#ccc',
-      borderRadius: 8,
-      padding: 10,
-      backgroundColor: '#f8f8f8',
-    },
-    inputMultiline: {
-      height: 80,
-      textAlignVertical: 'top',
-    },
-    modalButtons: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%',
-      marginTop: 15,
-    },
-    botonCancelar: {
-      backgroundColor: 'gray',
-      padding: 10,
-      borderRadius: 8,
-      flex: 1,
-      alignItems: 'center',
-      marginRight: 5,
-    },
-    botonGuardar: {
-      backgroundColor: '#007AFF',
-      padding: 10,
-      borderRadius: 8,
-      flex: 1,
-      alignItems: 'center',
-      marginLeft: 5,
-    },
-    botonTexto: {
-      color: 'white',
-      fontWeight: 'bold',
-    },
-  });
-  
-
-
+});
