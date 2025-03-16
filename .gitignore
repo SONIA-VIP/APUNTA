@@ -34,3 +34,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+.env
+app.json
+ai.js
+ai.js
+app.json

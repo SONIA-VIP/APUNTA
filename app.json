@@ -7,6 +7,9 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "extra": {
+      "googleApiKey": "AIzaSyDSIHJHRz1tIOV5GF1q9mODIp_HK2Kn6-g"
+    },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
