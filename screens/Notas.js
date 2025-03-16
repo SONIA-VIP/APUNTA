@@ -128,6 +128,7 @@ const handleResumirNota = async (nota) => {
   Alert.alert("📝 Resumen de la Nota", resumen);
 };
 
+  
 
   return (
     <View style={styles.container}>
