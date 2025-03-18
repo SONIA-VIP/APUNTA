@@ -8,7 +8,10 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "extra": {
-      "googleApiKey": "AIzaSyDSIHJHRz1tIOV5GF1q9mODIp_HK2Kn6-g"
+      "googleApiKey": "AIzaSyDSIHJHRz1tIOV5GF1q9mODIp_HK2Kn6-g",
+      "eas": {
+        "projectId": "c9eb3fa6-9321-45c9-9d2d-71a1e9772f3b"
+      }
     },
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -16,19 +19,25 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.laskaute.Apunta",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.laskaute.Apunta"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-sqlite"
-    ]
+    ],
+    "owner": "laskaute"
   }
 }

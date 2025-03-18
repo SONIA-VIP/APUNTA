@@ -3,7 +3,7 @@ import { View, Text, TextInput, FlatList, TouchableOpacity, Modal, StyleSheet } 
 import { addNota, getNotas, deleteNota, updateNota } from '../lib/database';
 import { Picker } from '@react-native-picker/picker';
 import { Feather } from '@expo/vector-icons';
-import { generarTexto, resumirNota, sugerirCategoria, buscarNotasIA } from '../lib/ai';
+import { generarTexto, resumirNota, sugerirCategoria, buscarNotasIA } from '../lib/ai.js';
 
 
 // 🔹 Función para generar contenido con IA
