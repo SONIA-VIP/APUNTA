@@ -16,7 +16,12 @@
     "preview4": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "GOOGLE_API_KEY": "AIzaSyDSIHJHRz1tIOV5GF1q9mODIp_HK2Kn6-g"
+      }
+    }
   }
 }
+
 
